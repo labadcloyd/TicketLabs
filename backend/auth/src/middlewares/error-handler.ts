@@ -16,7 +16,7 @@ export function errorHandler(
 		return res.status(400).json({ errors: formattedErrors })
 	}
 	if (err instanceof DatabaseConnectionError) {
-		return res.status(400).json({ errors: [
+		return res.status(500).json({ errors: [
 			{ message: 'Error in connecting to database' }
 		] })
 	}
