@@ -7,18 +7,8 @@ export function errorHandler(
 	res: Response, 
 	next: NextFunction
 ) {
-	if (err instanceof RequestValidationError) {
-		console.log('Error is a request validation error')
-		const formattedErrors = err.errors.map((errorItem) => {
-			return { message: errorItem.msg, field: errorItem.param }
-		})
-
-		return res.status(400).json({ errors: formattedErrors })
-	}
-	if (err instanceof DatabaseConnectionError) {
-		return res.status(500).json({ errors: [
-			{ message: 'Error in connecting to database' }
-		] })
+	if (err instanceof RequestValidationError || err instanceof DatabaseConnectionError) {
+		return res.status(err.statusCode).json({ errors: err.serializeErrors() })
 	}
 
 	return res.status(400).json(err)
