@@ -2,10 +2,15 @@ import express from "express";
 import { json } from "body-parser";
 import { authRouter } from './routes/.index'
 import { errorHandler } from "./middlewares/error-handler";
+import { NotFoundError } from "./errors/not-found-error";
 
 const app = express()
 app.use(json())
 app.use(authRouter)
+
+app.get('*', () => {
+	throw new NotFoundError()
+})
 app.use(errorHandler)
 
 app.listen(3000, () => {
