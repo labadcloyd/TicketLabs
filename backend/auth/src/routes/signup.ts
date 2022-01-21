@@ -19,8 +19,6 @@ app.post('/api/users/signup', [
 		throw new RequestValidationError(errors.array())
 	}
 
-	throw new DatabaseConnectionError()
-
 	const { email, password } = req.body
 
 	console.log(email, password)
