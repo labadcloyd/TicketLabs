@@ -1,6 +1,11 @@
-import mongoose from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-const UserSchema = new mongoose.Schema({
+interface UserAttrs {
+	email: string,
+	password: string,
+}
+
+const UserSchema = new Schema({
 	email: {
 		type: String,
 		required: true
@@ -11,6 +16,10 @@ const UserSchema = new mongoose.Schema({
 	}
 })
 
-const User = mongoose.model('User', UserSchema)
+const User = model('User', UserSchema)
 
-export { User }
+const newUser = (attrs: UserAttrs) => {
+	return new User(attrs)
+}
+
+export { newUser }
