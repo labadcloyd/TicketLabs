@@ -1,3 +1,4 @@
 import { connectDB } from './connectDB'
+import { Password } from './password'
 
-export { connectDB }
+export { connectDB, Password }

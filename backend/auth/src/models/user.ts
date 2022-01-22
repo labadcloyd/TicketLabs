@@ -1,4 +1,5 @@
 import { Schema, model, Model, Document as MongoDocument, ObjectId } from 'mongoose'
+import { Password } from '../utils/.index'
 
 /* TYPESCRIPT BOILERPLATE */
 // interface that describes the required fields to be entered to create a new model
@@ -27,6 +28,15 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	}
+})
+
+// NOT Using arrow functions as middleware functions use "this" in trying to access the data
+UserSchema.pre('save', async function (done) {
+	if (this.isModified('password')) {
+		const hashedPassword = await Password.toHash(this.get('password'))
+		this.set('password', hashedPassword)
+	}
+	done()
 })
 
 UserSchema.statics.build = (attrs: ModelAttrs) => {

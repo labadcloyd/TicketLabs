@@ -25,7 +25,7 @@ app.post('/api/users/signup', [
 	// Checking if user already exists
 	try {
 		const existingUser = await User.findOne({'email': email})
-		console.log(existingUser)
+		console.log({ existingUser })
 		if (!!existingUser) {
 			throw new BadRequestError('Email already exists')
 		}
