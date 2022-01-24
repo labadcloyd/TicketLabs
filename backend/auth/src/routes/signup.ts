@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
-import { body, validationResult } from "express-validator";
-import { DatabaseConnectionError, RequestValidationError, BadRequestError } from '../errors/.index'
-import { User } from "../models/.index";
+import { body, } from "express-validator";
+import { DatabaseConnectionError, BadRequestError } from '../errors'
+import { validateRequest } from "../middlewares";
+import { User } from "../models";
 import jwt from "jsonwebtoken";
 
 const app = express.Router()
@@ -14,12 +15,9 @@ app.post('/api/users/signup', [
 		.trim()
 		.isLength({ min: 7, max: 20 })
 		.withMessage('Password must be between 7 and 20 characters')
-], async (req: Request, res: Response) => {
-	const errors = 	validationResult(req)
-
-	if (!errors.isEmpty()) {
-		throw new RequestValidationError(errors.array())
-	}
+], 
+validateRequest,
+async (req: Request, res: Response) => {
 
 	const { email, password } = req.body
 

@@ -1,5 +1,5 @@
 import { Schema, model, Model, Document as MongoDocument, ObjectId } from 'mongoose'
-import { Password } from '../utils/.index'
+import { Password } from '../utils'
 
 /* TYPESCRIPT BOILERPLATE */
 // interface that describes the required fields to be entered to create a new model
@@ -28,9 +28,23 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	}
-})
+},
+// Changing how mongoose will return the object once it is sent over to the client
+{
+	toJSON: {
+		transform(doc, ret){
+			ret.id = ret._id
+			delete ret._id
+			delete ret.password
+			delete ret.__v
+		}
+	}
+}
 
-// NOT Using arrow functions as middleware functions use "this" in trying to access the data
+)
+
+// Hashing password before saving
+// NOT Using arrow functions because middleware functions use "this" in trying to access the data
 UserSchema.pre('save', async function (done) {
 	if (this.isModified('password')) {
 		const hashedPassword = await Password.toHash(this.get('password'))

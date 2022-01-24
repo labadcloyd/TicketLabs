@@ -3,9 +3,9 @@ import 'express-async-errors';
 import cookieSession from "cookie-session";
 import { json } from "body-parser";
 import { connectDB } from "./utils/connectDB";
-import { authRouter } from './routes/.index';
-import { errorHandler } from "./middlewares/error-handler";
-import { NotFoundError } from "./errors/.index";
+import { authRouter } from './routes';
+import { errorHandler } from "./middlewares";
+import { NotFoundError } from "./errors";
 
 connectDB()
 
