@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import { DatabaseConnectionError, RequestValidationError, BadRequestError } from '../errors/.index'
 import { User } from "../models/.index";
+import jwt from "jsonwebtoken";
 
 const app = express.Router()
 
@@ -38,6 +39,16 @@ app.post('/api/users/signup', [
 	try {
 		const newUser = User.build({ email, password })
 		await newUser.save()
+
+		// Generating jwt
+		const userJwt = jwt.sign({
+			id: newUser._id,
+			email: newUser.email
+		}, 'asda' )
+		// Storing jwt on session
+		req.session = {
+			jwt: userJwt
+		}
 
 		return res.status(201).json({ user: newUser })
 	} catch(err) {
