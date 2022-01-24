@@ -41,10 +41,13 @@ app.post('/api/users/signup', [
 		await newUser.save()
 
 		// Generating jwt
-		const userJwt = jwt.sign({
-			id: newUser._id,
-			email: newUser.email
-		}, 'asda' )
+		const userJwt = jwt.sign(
+			{
+				id: newUser._id,
+				email: newUser.email
+			},
+			process.env.JWTSECRET! 
+		)
 		// Storing jwt on session
 		req.session = {
 			jwt: userJwt
