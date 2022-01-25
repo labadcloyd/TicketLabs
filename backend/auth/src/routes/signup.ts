@@ -51,7 +51,7 @@ async (req: Request, res: Response) => {
 			jwt: userJwt
 		}
 
-		return res.status(201).json({ user: newUser })
+		return res.status(201).json(newUser)
 	} catch(err) {
 		console.log(err)
 		throw new DatabaseConnectionError()
