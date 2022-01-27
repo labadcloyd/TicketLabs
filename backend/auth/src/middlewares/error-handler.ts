@@ -10,7 +10,5 @@ export function errorHandler(
 	if (err instanceof CustomError) {
 		return res.status(err.statusCode).json({ errors: err.serializeErrors() })
 	}
-
-	console.log(err)
 	return res.status(400).json(err)
 }

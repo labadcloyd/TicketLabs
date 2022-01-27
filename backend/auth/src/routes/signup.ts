@@ -22,15 +22,9 @@ async (req: Request, res: Response) => {
 	const { email, password } = req.body
 
 	// Checking if user already exists
-	try {
-		const existingUser = await User.findOne({'email': email})
-		console.log({ existingUser })
-		if (!!existingUser) {
-			throw new BadRequestError('Email already exists')
-		}
-	} catch(err) {
-		console.log(err)
-		throw new DatabaseConnectionError()
+	const existingUser = await User.findOne({'email': email})
+	if (!!existingUser) {
+		throw new BadRequestError('Email already exists')
 	}
 
 	// Saving the user
