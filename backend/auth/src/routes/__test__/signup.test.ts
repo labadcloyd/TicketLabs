@@ -67,3 +67,20 @@ it('returns a 400 on blank object', async () => {
     .expect(400);
 });
 
+/* CHECKING FOR DUPLICATE EMAILS */
+it('returns a 400 on duplicated email', async () => {
+  await request(app)
+    .post('/api/users/signup')
+    .send({
+      email: 'test@test.com',
+      password: 'password'
+    })
+    .expect(201)
+  return await request(app)
+    .post('/api/users/signup')
+    .send({
+      email: 'test@test.com',
+      password: 'password'
+    })
+    .expect(400)
+})
