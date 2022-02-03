@@ -1,5 +1,5 @@
 import express from "express";
-import { currentUser, requireAuth } from '../middlewares'
+import { currentUser, requireAuth } from '@ticketlabs/common'
 
 const app = express.Router()
 

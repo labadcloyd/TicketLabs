@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { DatabaseConnectionError } from "../errors/index";
+import { DatabaseConnectionError } from "@ticketlabs/common";
 
 const connectDB = async () => {
 	if (!process.env.JWTSECRET) {

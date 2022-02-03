@@ -3,8 +3,7 @@ import 'express-async-errors';
 import cookieSession from "cookie-session";
 import { json } from "body-parser";
 import { authRouter } from './routes';
-import { errorHandler } from "./middlewares";
-import { NotFoundError } from "./errors";
+import { errorHandler, NotFoundError } from "@ticketlabs/common";
 
 const app = express()
 app.set('trust proxy', true)
