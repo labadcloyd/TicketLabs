@@ -16,6 +16,8 @@ spec:
         - name: tickets
           image: labadcloyd/tickets
           env:
+            - name: MONGO_URI
+              value: 'mongodb://tickets-mongo-srv:27017/tickets'
             - name: JWTSECRET
               valueFrom:
                 secretKeyRef:

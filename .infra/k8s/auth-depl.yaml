@@ -16,6 +16,8 @@ spec:
         - name: auth
           image: labadcloyd/auth
           env:
+            - name: MONGO_URI
+              value: 'mongodb://auth-mongo-srv:27017/auth'
             - name: JWTSECRET
               valueFrom:
                 secretKeyRef:
