@@ -16,6 +16,14 @@ build:
         manual:
           - src: '/src/**/*.ts'
             dest: .
+    - image: labadcloyd/tickets
+      context: tickets
+      docker: 
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '/src/**/*.ts'
+            dest: .
     - image: labadcloyd/ticketing-client
       context: client
       docker:
