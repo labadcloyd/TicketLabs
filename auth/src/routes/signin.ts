@@ -7,18 +7,11 @@ import jwt from "jsonwebtoken";
 
 const app = express.Router()
 
-app.post('/api/users/signin', 
-[
-	body('email')
-		.isEmail()
-		.withMessage('Email must be valid'),
-	body('password')
-		.trim()
-		.notEmpty()
-		.withMessage('You must supply a password')
+app.post('/api/users/signin', [
+	body('email').isEmail().withMessage('Email must be valid'),
+	body('password').trim().notEmpty().withMessage('You must supply a password')
 ], 
-validateRequest,
-async (req: Request, res: Response) => {
+validateRequest, async (req: Request, res: Response) => {
 	const { email, password } = req.body
 
 	const existingUser = await User.findOne({ email: email })

@@ -7,17 +7,10 @@ import jwt from "jsonwebtoken";
 const app = express.Router()
 
 app.post('/api/users/signup', [
-	body('email')
-		.isEmail()
-		.withMessage('Must be a valid email'),
-	body('password')
-		.trim()
-		.isLength({ min: 7, max: 20 })
-		.withMessage('Password must be between 7 and 20 characters')
+	body('email').isEmail().withMessage('Must be a valid email'),
+	body('password').trim().isLength({ min: 7, max: 20 }).withMessage('Password must be between 7 and 20 characters')
 ], 
-validateRequest,
-async (req: Request, res: Response) => {
-
+validateRequest, async (req: Request, res: Response) => {
 	const { email, password } = req.body
 
 	// Checking if user already exists
