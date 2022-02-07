@@ -36,6 +36,7 @@ const TicketSchema = new Schema({
 },
 // Changing how mongoose will return the object once it is sent over to the client
 {
+	timestamps: true,
 	toJSON: {
 		transform(doc, ret){
 			ret.id = ret._id
