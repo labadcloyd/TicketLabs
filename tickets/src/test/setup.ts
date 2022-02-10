@@ -13,7 +13,7 @@ declare global {
 global.signin = () => {
 	// building a jwt payload
 	const payload = {
-		id: '234sdf2243',
+		id: new mongoose.Types.ObjectId().toHexString(),
 		email: 'test@test.com'
 	}
 	// creating the jwt

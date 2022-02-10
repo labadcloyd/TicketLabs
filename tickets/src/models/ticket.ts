@@ -54,4 +54,4 @@ TicketSchema.statics.build = (attrs: ModelAttrs) => {
 
 const Ticket = model<MongoDoc, MongoModel>('Ticket', TicketSchema)
 
-export { Ticket }
+export { Ticket, MongoDoc as TicketTypes }
