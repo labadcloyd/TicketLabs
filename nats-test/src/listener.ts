@@ -3,12 +3,20 @@ import { randomBytes } from 'crypto'
 
 console.clear()
 
-const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
+const clientID = randomBytes(4).toString('hex')
+
+const stan = nats.connect('ticketing', clientID, {
 	url: 'http://localhost:4222'
 })
 
 stan.on('connect', () => {
 	console.log('listener connected to NATS')
+
+	// gracefully shutting down server
+	stan.on('close', () => {
+		console.log('NATS connection closed')
+		process.exit()
+	})
 
 	const options = stan.subscriptionOptions()
 	// Disabling default behavior of automatically return a success response
@@ -32,3 +40,7 @@ stan.on('connect', () => {
 	})
 
 })
+
+// interrupted or terminated process
+process.on('SIGINT', () => stan.close() )
+process.on('SIGTERM', () => stan.close() )
