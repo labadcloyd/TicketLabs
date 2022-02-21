@@ -21,6 +21,8 @@ stan.on('connect', () => {
 	const options = stan.subscriptionOptions()
 	// Disabling default behavior of automatically return a success response
 		.setManualAckMode(true)
+    .setDeliverAllAvailable()
+    .setDurableName('accounting-service');
 
 	const subscription = stan.subscribe(
 		'ticket:created', 
