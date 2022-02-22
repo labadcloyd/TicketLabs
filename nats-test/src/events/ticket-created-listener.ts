@@ -1,10 +1,25 @@
 import { Message } from 'node-nats-streaming'
-import Listener from "./base-listener";
+import { Listener, Subjects } from "../constants";
 
-class TicketCreatedListener extends Listener {
-	subject = 'ticket:created';
+interface TicketCreatedEvent {
+	subject: Subjects.TicketCreated,
+	data: {
+		id: string,
+		title: string,
+		price: number
+	}
+}
+
+class TicketCreatedListener extends Listener<TicketCreatedEvent> {
+	// this part can also be written like this
+	// subject: Subjects.TicketCreated = Subjects.TicketCreated;
+	// because typescript will think that this field will get overwritten
+	// if we don't manually overwrite it
+	
+	// this is a short hand for the previous line
+	readonly subject = Subjects.TicketCreated;
 	queueGroupName = 'payments-service';
-	onMessage(data: any, msg: Message): void {
+	onMessage(data: TicketCreatedEvent['data'], msg: Message): void {
 		console.log('Event data!', data)
 
 		msg.ack()
