@@ -1,14 +1,5 @@
 import { Message } from 'node-nats-streaming'
-import { Listener, Subjects } from "../constants";
-
-interface TicketCreatedEvent {
-	subject: Subjects.TicketCreated,
-	data: {
-		id: string,
-		title: string,
-		price: number
-	}
-}
+import { Listener, Subjects, TicketCreatedEvent } from "@ticketlabs/common";
 
 class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 	// this part can also be written like this
@@ -25,4 +16,4 @@ class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 		msg.ack()
 	}
 }
-export { TicketCreatedListener, TicketCreatedEvent }
+export { TicketCreatedListener }

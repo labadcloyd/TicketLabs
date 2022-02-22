@@ -2,12 +2,12 @@
   "name": "nats-test",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "publish": "ts-node-dev --rs --notify false src/publisher.ts",
     "listen": "ts-node-dev --rs --notify false src/listener.ts"
   },
   "dependencies": {
+    "@ticketlabs/common": "^1.2.0",
     "@types/node": "^17.0.17",
     "node-nats-streaming": "^0.3.2",
     "ts-node-dev": "^1.1.8",
