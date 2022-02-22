@@ -25,4 +25,4 @@ class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 		msg.ack()
 	}
 }
-export default TicketCreatedListener
+export { TicketCreatedListener, TicketCreatedEvent }

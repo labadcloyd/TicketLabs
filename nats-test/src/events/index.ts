@@ -1,3 +1,3 @@
-import TicketCreatedListener from "./ticket-created-listener";
+import { TicketCreatedListener, TicketCreatedEvent} from "./ticket-created-listener";
 
-export { TicketCreatedListener }
+export { TicketCreatedListener, TicketCreatedEvent }
