@@ -3,7 +3,7 @@ import { app } from './app'
 
 async function start() {
 	await natsWrapper.connect('ticketing', 'uniqueID', 'http://nats-srv:4222')
-	// gracefully shutting down server
+	// gracefully shutting down nats listener
 	natsWrapper.client.on('close', () => {
 		console.log('NATS connection closed')
 		process.exit()

@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { requireAuth, validateRequest } from '@ticketlabs/common'
 import { body, } from "express-validator";
 import { Ticket } from '../models'
-import TicketCreatedPublisher from "../events/publishers/ticket-created-publisher";
+import { TicketCreatedPublisher } from "../events/publishers";
 import { natsWrapper } from "../utils";
 
 const app = express.Router()

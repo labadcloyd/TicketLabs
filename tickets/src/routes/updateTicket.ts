@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import { DatabaseConnectionError, NotFoundError, requireAuth, UnautherizedError, validateRequest } from '@ticketlabs/common'
 import { body, param, } from "express-validator";
 import { Ticket, TicketTypes } from '../models'
+import { TicketUpdatedPublisher } from "../events/publishers";
+import { natsWrapper } from "../utils";
 
 const app = express.Router()
 
@@ -15,7 +17,11 @@ validateRequest, async (req: Request, res: Response) => {
 	const { id } = req.params
 	const { title, price } = req.body
 
-	const newTicket = await Ticket.findById(id)
+	const newTicket = await Ticket.findByIdAndUpdate(
+		id, 
+		{ $set: {title: title, price: price} }, 
+		{ new: true }
+	)
 
 	if (!newTicket) {
 		throw new NotFoundError()
@@ -24,9 +30,12 @@ validateRequest, async (req: Request, res: Response) => {
 		throw new UnautherizedError()
 	}
 
-	newTicket.title = title
-	newTicket.price = price
-	await newTicket.save()
+	await new TicketUpdatedPublisher(natsWrapper.client).publish({
+		id: newTicket.id,
+		title: newTicket.title,
+		price: newTicket.price,
+		userId: newTicket.userId
+	})
 
 	return res.status(200).json(newTicket)
 })
