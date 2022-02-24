@@ -1,8 +1,17 @@
-import { connectDB } from "./utils/connectDB";
+import { connectDB, natsWrapper } from "./utils";
 import { app } from './app'
 
-connectDB()
+async function start() {
+	await natsWrapper.connect('ticketing', 'uniqueID', 'http://nats-srv:4222')
+	await connectDB()
+	
+	app.listen(3002, () => {
+		console.log('running on port 3002')
+	})
+}
 
-app.listen(3001, () => {
-	console.log('running on port 3001')
-})
+try {
+	start()
+} catch (err) {
+
+}

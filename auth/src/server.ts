@@ -1,8 +1,16 @@
 import { connectDB } from "./utils/connectDB";
 import { app } from './app'
 
-connectDB()
+async function start() {
+	await connectDB()
+	
+	app.listen(3001, () => {
+		console.log('running on port 3001')
+	})
+}
 
-app.listen(3000, () => {
-	console.log('running on port 3000')
-})
+try {
+	start()
+}catch (err) {
+	console.error(err)
+}
