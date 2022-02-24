@@ -3,6 +3,15 @@ import { app } from './app'
 
 async function start() {
 	await natsWrapper.connect('ticketing', 'uniqueID', 'http://nats-srv:4222')
+	// gracefully shutting down server
+	natsWrapper.client.on('close', () => {
+		console.log('NATS connection closed')
+		process.exit()
+	})
+	// interrupted or terminated process
+	process.on('SIGINT', () => natsWrapper.client.close() )
+	process.on('SIGTERM', () => natsWrapper.client.close() )
+
 	await connectDB()
 	
 	app.listen(3002, () => {

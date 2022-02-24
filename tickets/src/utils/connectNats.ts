@@ -1,3 +1,4 @@
+// singleton design pattern implentation
 // this is a copy of how mongoose implements connections in mongodb.
 // when you make a connection to mongodb in mongoose, the connection's
 // state is stored in the mongoose class, that is why you dont need to
