@@ -3,7 +3,7 @@ import { DatabaseConnectionError, NotFoundError, requireAuth, UnautherizedError,
 import { body, param, } from "express-validator";
 import { Ticket, TicketTypes } from '../models'
 import { TicketUpdatedPublisher } from "../events/publishers";
-import { natsWrapper } from "../utils";
+import { natsWrapper } from "../natsWrapper";
 
 const app = express.Router()
 
@@ -19,7 +19,7 @@ validateRequest, async (req: Request, res: Response) => {
 
 	const newTicket = await Ticket.findByIdAndUpdate(
 		id, 
-		{ $set: {title: title, price: price} }, 
+		{ $set: { title: title, price: price } }, 
 		{ new: true }
 	)
 

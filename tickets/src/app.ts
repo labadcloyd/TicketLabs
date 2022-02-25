@@ -4,7 +4,6 @@ import cookieSession from "cookie-session";
 import { json } from "body-parser";
 import { ticketsRouter } from './routes';
 import { errorHandler, NotFoundError, currentUser } from "@ticketlabs/common";
-import { natsWrapper } from "./utils/connectNats";
 
 const app = express()
 app.set('trust proxy', true)

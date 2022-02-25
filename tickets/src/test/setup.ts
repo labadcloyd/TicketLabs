@@ -1,7 +1,5 @@
-import request from 'supertest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { app } from '../app'
 import jwt from "jsonwebtoken";
 
 let mongo: any
@@ -23,6 +21,8 @@ global.signin = () => {
 
 	return [ `session=${cookieObj}==; path=/; httponly` ]
 }
+
+jest.mock('../natsWrapper')
 
 beforeAll(async () => {
 	process.env.JWTSECRET = 'asdasdasd123'

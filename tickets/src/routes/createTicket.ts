@@ -3,7 +3,7 @@ import { requireAuth, validateRequest } from '@ticketlabs/common'
 import { body, } from "express-validator";
 import { Ticket } from '../models'
 import { TicketCreatedPublisher } from "../events/publishers";
-import { natsWrapper } from "../utils";
+import { natsWrapper } from "../natsWrapper";
 
 const app = express.Router()
 
