@@ -4,8 +4,14 @@ import mongoose from "mongoose";
 import { app } from './app'
 
 async function start() {
-	if (!process.env.JWTSECRET || !process.env.MONGO_URI) {
-		throw new Error('JWTSECRET or MONGO_URI must be defined')
+	if (
+		!process.env.JWTSECRET || 
+		!process.env.MONGO_URI || 
+		!process.env.NATS_CLUSTER_ID || 
+		!process.env.NATS_CLIENT_ID || 
+		!process.env.NATS_URL
+	) {
+		throw new Error('JWTSECRET, MONGO_URI, NATS_CLUSTER_ID, NATS_CLIENT_ID, and NATS_URL must be defined')
 	}
 	try {
 		// connecting database
@@ -13,7 +19,11 @@ async function start() {
 		console.log('Database connected')
 
 		// connecting to nats event bus
-		await natsWrapper.connect('ticketing', 'uniqueID', 'http://nats-srv:4222')
+		await natsWrapper.connect(
+			process.env.NATS_CLUSTER_ID, 
+			process.env.NATS_CLIENT_ID, 
+			process.env.NATS_URL
+		)
 		// gracefully shutting down nats listener
 		natsWrapper.client.on('close', () => {
 			console.log('NATS connection closed')
