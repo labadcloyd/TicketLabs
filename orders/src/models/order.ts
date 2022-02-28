@@ -49,9 +49,9 @@ const TicketSchema = new Schema({
 )
 
 TicketSchema.statics.build = (attrs: ModelAttrs) => {
-	return new Ticket(attrs)
+	return new Order(attrs)
 }
 
-const Ticket = model<MongoDoc, MongoModel>('Ticket', TicketSchema)
+const Order = model<MongoDoc, MongoModel>('Order', TicketSchema)
 
-export { Ticket, MongoDoc as TicketTypes }
+export { Order, MongoDoc as TicketTypes }

@@ -12,13 +12,13 @@ validateRequest, async (req: Request, res: Response) => {
 	const { id } = req.params
 
 	try {
-		const newTicket = await Ticket.findById(id)
+		const foundTicket = await Ticket.findById(id)
 
-		if (!newTicket) {
+		if (!foundTicket) {
 			throw new NotFoundError()
 		}
 
-		return res.status(200).json(newTicket)
+		return res.status(200).json(foundTicket)
 	} catch(err) {
 		throw new NotFoundError()
 	}

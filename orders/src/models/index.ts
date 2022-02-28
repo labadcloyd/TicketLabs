@@ -1,3 +1,3 @@
-import { Ticket, TicketTypes } from './ticket'
+import { Order } from './order'
 
-export { Ticket, TicketTypes }
+export { Order }

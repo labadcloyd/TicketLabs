@@ -1,16 +1,16 @@
 import express from "express";
 
 // Routes
-import { createTicketRouter } from './createTicket'
-import { getTicketRouter } from './getTicket'
-import { getAllTicketsRouter } from './getAllTickets'
-import { updateTicketRouter } from './updateTicket'
+import { createOrderRouter } from './createOrder'
+import { getOrderRouter } from './getOrder'
+import { getAllOrdersRouter } from './getAllOrders'
+import { deleteOrderRouter } from './deleteOrder'
 
 const app = express.Router()
 
-app.use(createTicketRouter)
-app.use(getTicketRouter)
-app.use(getAllTicketsRouter)
-app.use(updateTicketRouter)
+app.use(createOrderRouter)
+app.use(getOrderRouter)
+app.use(getAllOrdersRouter)
+app.use(deleteOrderRouter)
 
-export { app as ticketsRouter }
+export { app as OrdersRouter }

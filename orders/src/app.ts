@@ -2,7 +2,7 @@ import express from "express";
 import 'express-async-errors';
 import cookieSession from "cookie-session";
 import { json } from "body-parser";
-import { ticketsRouter } from './routes';
+import { OrdersRouter } from './routes';
 import { errorHandler, NotFoundError, currentUser } from "@ticketlabs/common";
 
 const app = express()
@@ -14,7 +14,7 @@ app.use(cookieSession({
 }))
 app.use(currentUser)
 
-app.use(ticketsRouter)
+app.use(OrdersRouter)
 
 app.all('*', async () => {
 	throw new NotFoundError()

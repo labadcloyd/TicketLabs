@@ -1,13 +1,13 @@
 import express, { Request, Response } from "express";
 import { DatabaseConnectionError, NotFoundError, requireAuth, UnautherizedError, validateRequest } from '@ticketlabs/common'
 import { body, param, } from "express-validator";
-import { Ticket, TicketTypes } from '../models'
+import { Order } from '../models'
 import { TicketUpdatedPublisher } from "../events/publishers";
 import { natsWrapper } from "../natsWrapper";
 
 const app = express.Router()
 
-app.put('/api/tickets/:id', requireAuth, [
+app.delete('/api/orders/:id', requireAuth, [
 	body('title').isString().not().isEmpty().withMessage('Must be a valid title'),
 	body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than 0'),
 	param('id').isString().not().isEmpty().withMessage('Must be a valid id')
@@ -17,7 +17,7 @@ validateRequest, async (req: Request, res: Response) => {
 	const { id } = req.params
 	const { title, price } = req.body
 
-	const newTicket = await Ticket.findByIdAndUpdate(
+	const newTicket = await Order.findByIdAndUpdate(
 		id, 
 		{ $set: { title: title, price: price } }, 
 		{ new: true }
@@ -40,4 +40,4 @@ validateRequest, async (req: Request, res: Response) => {
 	return res.status(200).json(newTicket)
 })
 
-export { app as updateTicketRouter }
+export { app as deleteOrderRouter }
