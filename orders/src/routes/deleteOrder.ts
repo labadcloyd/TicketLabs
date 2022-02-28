@@ -13,31 +13,31 @@ app.delete('/api/orders/:id', requireAuth, [
 	param('id').isString().not().isEmpty().withMessage('Must be a valid id')
 ],
 validateRequest, async (req: Request, res: Response) => {
-	const { currentUser } = req
-	const { id } = req.params
-	const { title, price } = req.body
+	// const { currentUser } = req
+	// const { id } = req.params
+	// const { title, price } = req.body
 
-	const newTicket = await Order.findByIdAndUpdate(
-		id, 
-		{ $set: { title: title, price: price } }, 
-		{ new: true }
-	)
+	// const newTicket = await Order.findByIdAndUpdate(
+	// 	id, 
+	// 	{ $set: { title: title, price: price } }, 
+	// 	{ new: true }
+	// )
 
-	if (!newTicket) {
-		throw new NotFoundError()
-	}
-	if (newTicket?.userId !== currentUser?.id) {
-		throw new UnautherizedError()
-	}
+	// if (!newTicket) {
+	// 	throw new NotFoundError()
+	// }
+	// if (newTicket?.userId !== currentUser?.id) {
+	// 	throw new UnautherizedError()
+	// }
 
-	await new TicketUpdatedPublisher(natsWrapper.client).publish({
-		id: newTicket.id,
-		title: newTicket.title,
-		price: newTicket.price,
-		userId: newTicket.userId
-	})
+	// await new TicketUpdatedPublisher(natsWrapper.client).publish({
+	// 	id: newTicket.id,
+	// 	title: newTicket.title,
+	// 	price: newTicket.price,
+	// 	userId: newTicket.userId
+	// })
 
-	return res.status(200).json(newTicket)
+	// return res.status(200).json(newTicket)
 })
 
 export { app as deleteOrderRouter }
