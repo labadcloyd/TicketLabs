@@ -1,3 +1,4 @@
 import { Order } from './order'
+import { Ticket, TicketDoc } from './ticket'
 
-export { Order }
+export { Order, Ticket, TicketDoc }

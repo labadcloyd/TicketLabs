@@ -1,15 +1,18 @@
 import express, { Request, Response } from "express";
-import { requireAuth, validateRequest } from '@ticketlabs/common'
+import mongoose from 'mongoose'
 import { body, } from "express-validator";
-import { Order } from '../models'
 import { TicketCreatedPublisher } from "../events/publishers";
+import { requireAuth, validateRequest } from '@ticketlabs/common'
 import { natsWrapper } from "../natsWrapper";
+import { Order, Ticket } from '../models'
 
 const app = express.Router()
 
 app.post('/api/orders', requireAuth, [
-	body('title').isString().not().isEmpty().withMessage('Must be a valid title'),
-	body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than 0')
+	body('ticketId')
+		.isString().not().isEmpty()
+		.custom((input: string) => mongoose.Types.ObjectId.isValid(input))
+		.withMessage('Must be a valid ticket ID')
 ], 
 validateRequest, async (req: Request, res: Response) => {
 	const { title, price } = req.body

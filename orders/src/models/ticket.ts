@@ -1,21 +1,17 @@
-import { OrderStatus } from '@ticketlabs/common'
 import { Schema, model, Model, Document as MongoDocument, ObjectId } from 'mongoose'
-import { TicketDoc } from './ticket'
 
 /* TYPESCRIPT BOILERPLATE */
 // interface that describes the required fields to be entered to create a new model
 interface ModelAttrs {
+	title: string,
+	price: number,
 	userId: string,
-	status: OrderStatus,
-	expiresAt: Date,
-	ticket: TicketDoc,
 }
 // interface that describes the properties of a single mongo document
 interface MongoDoc extends MongoDocument {
+	title: string,
+	price: number,
 	userId: string,
-	status: OrderStatus,
-	expiresAt: Date,
-	ticket: TicketDoc,
 	_id: ObjectId,
 }
 // interface that tells typescript about the new function added to ticket model
@@ -24,23 +20,18 @@ interface MongoModel extends Model<MongoDoc> {
 	build(attrs: ModelAttrs): MongoDoc;
 }
 
-const OrderSchema = new Schema({
+const TicketSchema = new Schema({
+	title: {
+		type: String,
+		required: true
+	},
+	price: {
+		type: Number,
+		min: 0,
+		required: true
+	},
 	userId: {
 		type: String,
-		required: true
-	},
-	status: {
-		type: String,
-		enum: Object.values(OrderStatus),
-		default: OrderStatus.Created,
-		required: true
-	},
-	expiresAt: {
-		type: Schema.Types.Date,
-	},
-	ticket: {
-		type: Schema.Types.ObjectId,
-		ref: 'Ticket',
 		required: true
 	}
 },
@@ -58,10 +49,10 @@ const OrderSchema = new Schema({
 
 )
 
-OrderSchema.statics.build = (attrs: ModelAttrs) => {
-	return new Order(attrs)
+TicketSchema.statics.build = (attrs: ModelAttrs) => {
+	return new Ticket(attrs)
 }
 
-const Order = model<MongoDoc, MongoModel>('Order', OrderSchema)
+const Ticket = model<MongoDoc, MongoModel>('Ticket', TicketSchema)
 
-export { Order, MongoDoc as TicketTypes }
+export { Ticket, MongoDoc as TicketDoc }
