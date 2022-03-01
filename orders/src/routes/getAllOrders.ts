@@ -1,13 +1,15 @@
 import express, { Request, Response } from "express";
-import { NotFoundError } from '@ticketlabs/common'
+import { NotFoundError, requireAuth } from '@ticketlabs/common'
 import { Order } from '../models'
 
 const app = express.Router()
 
-app.get('/api/orders', async (req: Request, res: Response) => {
+app.get('/api/orders', requireAuth, async (req: Request, res: Response) => {
 
 	try {
-		const allOrders = await Order.find()
+		const allOrders = await Order.find({
+			userId: req.currentUser!.id,
+		}).populate('ticket')
 
 		if (!allOrders) {
 			return res.status(200).json([])
