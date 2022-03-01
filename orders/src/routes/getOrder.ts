@@ -11,20 +11,16 @@ app.get('/api/orders/:orderId', requireAuth, [
 validateRequest, async (req: Request, res: Response) => {
 	const { orderId } = req.params
 
-	try {
-		const foundOrder = await Order.findById(orderId).populate('ticket')
+	const foundOrder = await Order.findById(orderId).populate('ticket')
 
-		if (!foundOrder) {
-			throw new NotFoundError()
-		}
-		if (foundOrder.userId !== req.currentUser!.id) {
-			throw new UnautherizedError
-		}
-
-		return res.status(200).json(foundOrder)
-	} catch(err) {
+	if (!foundOrder) {
 		throw new NotFoundError()
 	}
+	if (foundOrder.userId !== req.currentUser!.id) {
+		throw new UnautherizedError
+	}
+
+	return res.status(200).json(foundOrder)
 })
 
 export { app as getOrderRouter }
