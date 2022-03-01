@@ -4,13 +4,13 @@ import express from "express";
 import { createOrderRouter } from './createOrder'
 import { getOrderRouter } from './getOrder'
 import { getAllOrdersRouter } from './getAllOrders'
-import { deleteOrderRouter } from './deleteOrder'
+import { cancelOrderRouter } from './cancelOrder'
 
 const app = express.Router()
 
 app.use(createOrderRouter)
 app.use(getOrderRouter)
 app.use(getAllOrdersRouter)
-app.use(deleteOrderRouter)
+app.use(cancelOrderRouter)
 
 export { app as OrdersRouter }
