@@ -1,4 +1,4 @@
-import TicketCreatedPublisher from "./ticket-created-publisher";
-import TicketUpdatedPublisher from "./ticket-updated-publisher";
+import OrderCreatedPublisher from "./order-created-publisher";
+import OrderCancelledPublisher from "./order-updated-publisher";
 
-export { TicketCreatedPublisher, TicketUpdatedPublisher }
+export { OrderCreatedPublisher, OrderCancelledPublisher }
