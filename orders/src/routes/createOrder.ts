@@ -2,9 +2,6 @@ import express, { Request, Response } from "express";
 import mongoose from 'mongoose'
 import { body, } from "express-validator";
 
-import { TicketCreatedPublisher } from "../events/publishers";
-import { natsWrapper } from "../natsWrapper";
-import { Order, Ticket } from '../models'
 import {
 	BadRequestError,
 	NotFoundError,
@@ -12,6 +9,9 @@ import {
 	requireAuth,
 	validateRequest
 } from '@ticketlabs/common'
+import { natsWrapper } from "../natsWrapper";
+import { OrderCreatedPublisher } from "../events/publishers";
+import { Order, Ticket } from '../models'
 
 const app = express.Router()
 
@@ -46,6 +46,17 @@ validateRequest, async (req: Request, res: Response) => {
 		ticket: foundTicket
 	})
 	await order.save()
+
+	new OrderCreatedPublisher(natsWrapper.client).publish({
+		id: order.id,
+		status: order.status,
+		userId: order.userId,
+		expiresAt: order.expiresAt.toISOString(),
+		ticket: {
+			id: foundTicket.id,
+			price: foundTicket.price
+		}
+	})
 
 	res.status(201).json(order)
 })
