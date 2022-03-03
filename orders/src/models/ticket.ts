@@ -5,6 +5,7 @@ import { BadRequestError, NotFoundError, OrderStatus } from '@ticketlabs/common'
 /* TYPESCRIPT BOILERPLATE */
 // interface that describes the required fields to be entered to create a new model
 interface ModelAttrs {
+	id: string,
 	title: string,
 	price: number,
 }
@@ -12,7 +13,6 @@ interface ModelAttrs {
 interface MongoDoc extends MongoDocument {
 	title: string,
 	price: number,
-	_id: ObjectId,
 	isReserved(): Promise<Boolean>
 }
 // interface that tells typescript about the new function added to ticket model
@@ -47,7 +47,11 @@ const TicketSchema = new Schema({
 )
 
 TicketSchema.statics.build = (attrs: ModelAttrs) => {
-	return new Ticket(attrs)
+	return new Ticket({
+		_id: attrs.id,
+		title: attrs.title,
+		price: attrs.price
+	})
 }
 TicketSchema.methods.isReserved = async function () {
 	const reservedOrder = await Order.findOne({
