@@ -3,7 +3,7 @@ import { Subjects, Listener, TicketCreatedEvent } from "@ticketlabs/common";
 import { Ticket } from "../../models";
 import { queueGroupName } from "./queue-group-name";
 
-export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
+export default class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 	readonly subject = Subjects.TicketCreated;
 	queueGroupName = queueGroupName;
 

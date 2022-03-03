@@ -3,7 +3,7 @@ import { Subjects, Listener, TicketUpdatedEvent, NotFoundError } from "@ticketla
 import { Ticket } from "../../models";
 import { queueGroupName } from "./queue-group-name";
 
-export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
+export default class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 	readonly subject = Subjects.TicketUpdated;
 	queueGroupName = queueGroupName;
 
