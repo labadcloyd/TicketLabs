@@ -1,4 +1,5 @@
 import { Schema, model, Model, Document as MongoDocument, ObjectId } from 'mongoose'
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current'
 
 /* TYPESCRIPT BOILERPLATE */
 // interface that describes the required fields to be entered to create a new model
@@ -12,7 +13,7 @@ interface MongoDoc extends MongoDocument {
 	title: string,
 	price: number,
 	userId: string,
-	_id: ObjectId,
+	version: number,
 }
 // interface that tells typescript about the new function added to ticket model
 // "Model" is a built in typescript interface and not an actual mongoose object
@@ -48,6 +49,9 @@ const TicketSchema = new Schema({
 }
 
 )
+
+TicketSchema.set('versionKey', 'version')
+TicketSchema.plugin(updateIfCurrentPlugin)
 
 TicketSchema.statics.build = (attrs: ModelAttrs) => {
 	return new Ticket(attrs)
