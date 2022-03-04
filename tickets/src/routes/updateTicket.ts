@@ -17,11 +17,7 @@ validateRequest, async (req: Request, res: Response) => {
 	const { id } = req.params
 	const { title, price } = req.body
 
-	const newTicket = await Ticket.findByIdAndUpdate(
-		id, 
-		{ $set: { title: title, price: price } }, 
-		{ new: true }
-	)
+	const newTicket = await Ticket.findById(id)
 
 	if (!newTicket) {
 		throw new NotFoundError()
@@ -29,6 +25,9 @@ validateRequest, async (req: Request, res: Response) => {
 	if (newTicket?.userId !== currentUser?.id) {
 		throw new UnautherizedError()
 	}
+
+	newTicket!.set({ title: title, price: price })
+	await newTicket.save()
 
 	await new TicketUpdatedPublisher(natsWrapper.client).publish({
 		id: newTicket.id,

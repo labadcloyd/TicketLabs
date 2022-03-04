@@ -12,7 +12,6 @@ export default class TicketCreatedListener extends Listener<TicketCreatedEvent> 
 
 		const ticket = Ticket.build({ id, title, price })
 		await ticket.save()
-
 		msg.ack()
 	}
 }

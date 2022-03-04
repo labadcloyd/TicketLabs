@@ -16,6 +16,7 @@ export default class TicketUpdatedListener extends Listener<TicketUpdatedEvent> 
 		})
 
 		if (!ticket) {
+			console.log('no ticket found')
 			throw new NotFoundError()
 		}
 
