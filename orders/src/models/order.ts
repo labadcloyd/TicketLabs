@@ -17,6 +17,7 @@ interface MongoDoc extends MongoDocument {
 	expiresAt: Date,
 	ticket: TicketDoc,
 	_id: ObjectId,
+	version: number
 }
 // interface that tells typescript about the new function added to ticket model
 // "Model" is a built in typescript interface and not an actual mongoose object

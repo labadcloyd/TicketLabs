@@ -34,7 +34,8 @@ validateRequest, async (req: Request, res: Response) => {
 		id: newTicket.id,
 		title: newTicket.title,
 		price: newTicket.price,
-		userId: newTicket.userId
+		userId: newTicket.userId,
+		version: newTicket.version
 	})
 
 	return res.status(200).json(newTicket)

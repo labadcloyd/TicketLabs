@@ -52,6 +52,7 @@ validateRequest, async (req: Request, res: Response) => {
 		status: order.status,
 		userId: order.userId,
 		expiresAt: order.expiresAt.toISOString(),
+		version: order.version,
 		ticket: {
 			id: foundTicket.id,
 			price: foundTicket.price

@@ -8,17 +8,19 @@ export default class TicketUpdatedListener extends Listener<TicketUpdatedEvent> 
 	queueGroupName = queueGroupName;
 
 	async onMessage(data: TicketUpdatedEvent['data'], msg: Message): Promise<void> {
-		const { id, title, price } = data
+		const { id, title, price, version } = data
 		
-		const ticket = await Ticket.findByIdAndUpdate(
-			id, 
-			{ $set: { title: title, price: price } }
-		)
+		const ticket = await Ticket.findOne({
+			_id: id,
+			version: version -1
+		})
 
 		if (!ticket) {
 			throw new NotFoundError()
 		}
 
+		ticket.set({ title, price })
+		await ticket.save()
 		msg.ack()
 	}
 }

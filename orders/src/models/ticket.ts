@@ -1,6 +1,7 @@
 import { Schema, model, Model, Document as MongoDocument, ObjectId } from 'mongoose'
 import { Order } from './order'
-import { BadRequestError, NotFoundError, OrderStatus } from '@ticketlabs/common'
+import { OrderStatus } from '@ticketlabs/common'
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current'
 
 /* TYPESCRIPT BOILERPLATE */
 // interface that describes the required fields to be entered to create a new model
@@ -13,6 +14,7 @@ interface ModelAttrs {
 interface MongoDoc extends MongoDocument {
 	title: string,
 	price: number,
+	version: number,
 	isReserved(): Promise<Boolean>
 }
 // interface that tells typescript about the new function added to ticket model
@@ -42,9 +44,10 @@ const TicketSchema = new Schema({
 			delete ret.__v
 		}
 	}
-}
+})
 
-)
+TicketSchema.set('versionKey', 'version')
+TicketSchema.plugin(updateIfCurrentPlugin)
 
 TicketSchema.statics.build = (attrs: ModelAttrs) => {
 	return new Ticket({
