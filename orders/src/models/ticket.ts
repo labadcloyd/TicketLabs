@@ -21,6 +21,7 @@ interface MongoDoc extends MongoDocument {
 // "Model" is a built in typescript interface and not an actual mongoose object
 interface MongoModel extends Model<MongoDoc> {
 	build(attrs: ModelAttrs): MongoDoc;
+	findByEvent(event: { id: string, version: number }): Promise<MongoDoc | null>;
 }
 
 const TicketSchema = new Schema({
@@ -48,6 +49,12 @@ const TicketSchema = new Schema({
 TicketSchema.set('versionKey', 'version')
 TicketSchema.plugin(updateIfCurrentPlugin)
 
+TicketSchema.statics.findByEvent = (event: { id: string, version: number }) => {
+	return Ticket.findOne({
+		_id: event.id,
+		version: event.version - 1
+	})
+}
 TicketSchema.statics.build = (attrs: ModelAttrs) => {
 	return new Ticket({
 		_id: attrs.id,

@@ -1,0 +1,11 @@
+{
+  "name": "ticketlabs",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "skaffold dev --no-prune=false --cache-artifacts=false"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
