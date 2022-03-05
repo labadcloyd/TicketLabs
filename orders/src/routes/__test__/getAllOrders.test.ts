@@ -4,8 +4,11 @@ import mongoose from 'mongoose'
 import { Order, Ticket } from '../../models';
 import { OrderStatus } from '@ticketlabs/common';
 
+
 const buildTicket = async () => {
+	const id = new mongoose.Types.ObjectId().toHexString()
 	const ticket = Ticket.build({
+		id: id,
 		title: 'concert',
 		price: 20
 	})

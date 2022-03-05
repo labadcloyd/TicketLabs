@@ -4,8 +4,11 @@ import mongoose from 'mongoose'
 import { Order, Ticket } from '../../models';
 import { OrderStatus } from '@ticketlabs/common';
 
+const id = new mongoose.Types.ObjectId().toHexString()
+
 it('fetches the order', async () => {
 	const ticket = Ticket.build({
+		id: id,
 		title: 'aasda',
 		price: 20
 	})
@@ -29,6 +32,7 @@ it('fetches the order', async () => {
 
 it('returns an error if it fetches another users order', async () => {
 	const ticket = Ticket.build({
+		id: id,
 		title: 'aasda',
 		price: 20
 	})
