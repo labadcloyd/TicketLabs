@@ -2,6 +2,8 @@ import { DatabaseConnectionError } from "@ticketlabs/common";
 import { natsWrapper } from "./natsWrapper";
 import mongoose from "mongoose";
 import { app } from './app'
+import { OrderCancelledListener, OrderCreatedListener } from "./events/listeners";
+
 
 async function start() {
 	if (
@@ -32,6 +34,10 @@ async function start() {
 		// interrupted or terminated process
 		process.on('SIGINT', () => natsWrapper.client.close() )
 		process.on('SIGTERM', () => natsWrapper.client.close() )
+
+		new OrderCreatedListener(natsWrapper.client).listen()
+		new OrderCancelledListener(natsWrapper.client).listen()
+
 	} catch(err) {
 		console.log(err)
 		throw new DatabaseConnectionError()

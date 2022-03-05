@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { DatabaseConnectionError, NotFoundError, requireAuth, UnautherizedError, validateRequest } from '@ticketlabs/common'
+import { BadRequestError, DatabaseConnectionError, NotFoundError, requireAuth, UnautherizedError, validateRequest } from '@ticketlabs/common'
 import { body, param, } from "express-validator";
 import { Ticket, TicketTypes } from '../models'
 import { TicketUpdatedPublisher } from "../events/publishers";
@@ -21,6 +21,9 @@ validateRequest, async (req: Request, res: Response) => {
 
 	if (!newTicket) {
 		throw new NotFoundError()
+	}
+	if (newTicket.orderId) {
+		throw new BadRequestError('Cannot edit a reserved ticket.')
 	}
 	if (newTicket?.userId !== currentUser?.id) {
 		throw new UnautherizedError()

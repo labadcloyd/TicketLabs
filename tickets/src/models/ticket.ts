@@ -14,6 +14,7 @@ interface MongoDoc extends MongoDocument {
 	price: number,
 	userId: string,
 	version: number,
+	orderId?: string
 }
 // interface that tells typescript about the new function added to ticket model
 // "Model" is a built in typescript interface and not an actual mongoose object
@@ -34,6 +35,9 @@ const TicketSchema = new Schema({
 	userId: {
 		type: String,
 		required: true
+	},
+	orderId: {
+		type: String
 	}
 },
 // Changing how mongoose will return the object once it is sent over to the client

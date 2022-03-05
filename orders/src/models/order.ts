@@ -1,4 +1,5 @@
 import { OrderStatus } from '@ticketlabs/common'
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current'
 import { Schema, model, Model, Document as MongoDocument, ObjectId } from 'mongoose'
 import { TicketDoc } from './ticket'
 
@@ -55,10 +56,10 @@ const OrderSchema = new Schema({
 			delete ret.__v
 		}
 	}
-}
+})
 
-)
-
+OrderSchema.set('versionKey', 'version')
+OrderSchema.plugin(updateIfCurrentPlugin)
 OrderSchema.statics.build = (attrs: ModelAttrs) => {
 	return new Order(attrs)
 }
