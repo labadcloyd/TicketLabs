@@ -1,4 +1,5 @@
 import { DatabaseConnectionError } from "@ticketlabs/common";
+import { OrderCreatedListener } from "./events/listeners";
 import { natsWrapper } from "./natsWrapper";
 
 async function start() {
@@ -26,6 +27,7 @@ async function start() {
 		process.on('SIGINT', () => natsWrapper.client.close() )
 		process.on('SIGTERM', () => natsWrapper.client.close() )
 
+		new OrderCreatedListener(natsWrapper.client).listen()
 	} catch(err) {
 		console.log(err)
 		throw new DatabaseConnectionError()
