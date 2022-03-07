@@ -1,4 +1,4 @@
 import OrderCreatedPublisher from "./order-created-publisher";
-import OrderCancelledPublisher from "./order-updated-publisher";
+import OrderCancelledPublisher from "./order-cancelled-publisher";
 
 export { OrderCreatedPublisher, OrderCancelledPublisher }
