@@ -4,6 +4,7 @@ import { body, } from "express-validator";
 import { Order, Payment, Ticket } from '../models'
 import { natsWrapper } from "../natsWrapper";
 import stripe from "../stripe";
+import { PaymentCreatedPublisher } from "../events/publishers";
 
 const app = express.Router()
 
@@ -38,7 +39,13 @@ validateRequest, async (req: Request, res: Response) => {
 	})
 	await payment.save()
 
-	res.status(201).send({ success: true })
+	new PaymentCreatedPublisher(natsWrapper.client).publish({
+		id: payment.id,
+		orderId: payment.orderId,
+		stripeId: payment.stripeId
+	})
+
+	res.status(201).send({ id: payment.id })
 })
 
 export { app as createPaymentRouter }
