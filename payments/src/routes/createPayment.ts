@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { BadRequestError, NotFoundError, OrderStatus, requireAuth, UnautherizedError, validateRequest } from '@ticketlabs/common'
 import { body, } from "express-validator";
-import { Order, Ticket } from '../models'
+import { Order, Payment, Ticket } from '../models'
 import { natsWrapper } from "../natsWrapper";
 import stripe from "../stripe";
 
@@ -26,13 +26,19 @@ validateRequest, async (req: Request, res: Response) => {
 		throw new BadRequestError('Cannot pay for cancelled order')
 	}
 
-	await stripe.charges.create({
+	const charge = await stripe.charges.create({
 		currency: 'usd',
 		amount: (order.price * 100),
 		source: token
 	})
 
-	res.send({ success: true })
+	const payment = Payment.build({
+		orderId,
+		stripeId: charge.id
+	})
+	await payment.save()
+
+	res.status(201).send({ success: true })
 })
 
 export { app as createPaymentRouter }
