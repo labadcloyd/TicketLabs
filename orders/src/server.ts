@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { app } from './app'
 import { TicketCreatedListener, TicketUpdatedListener } from './events/listeners' 
 import ExpirationCompleteListener from "./events/listeners/expiration-complete-listener";
+import PaymentCreatedListener from "./events/listeners/payment-created-listener";
 
 async function start() {
 	if (
@@ -38,6 +39,7 @@ async function start() {
 		new TicketCreatedListener(natsWrapper.client).listen()
 		new TicketUpdatedListener(natsWrapper.client).listen()
 		new ExpirationCompleteListener(natsWrapper.client).listen()
+		new PaymentCreatedListener(natsWrapper.client).listen()
 	} catch(err) {
 		console.log(err)
 		throw new DatabaseConnectionError()
