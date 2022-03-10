@@ -36,7 +36,7 @@ kubectl create secret generic jwt-secret --from-literal=JWTSECRET={Your_Secret_h
 kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY={Your_Secret_here}
 ```
 
-4. Finally, run the app
+5. Finally, run the app
 
 ```
 skaffold dev
@@ -46,8 +46,6 @@ skaffold dev
 ## Running the tests
 
 There have been some tests written in some of the services, if you want to run the tests follow the steps below.
-
-### Break down into end to end tests
 
 1. Change directory to a service (for this example, were going for the tickets service)
 
